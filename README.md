@@ -88,7 +88,7 @@ Sistema completo para gerenciamento de frotas, desenvolvido com **Next.js**, que
 
 ## 📜 Licença
 
-Este projeto está licenciado sob a [Licença MIT](./LICENSE).
+Este projeto está licenciado sob a [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
