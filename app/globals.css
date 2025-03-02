@@ -27,25 +27,26 @@
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 223 47% 11%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 63% 31%;
+    --background: 222.2 84% 4.9%; /* Fundo escuro */
+    --foreground: 210 40% 98%; /* Texto claro para melhor contraste */
+    --card: 228 15% 15%; /* Fundo dos cards mais escuro para diferenciação */
+    --card-foreground: 210 40% 98%;
+    --popover: 228 15% 12%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 221.2 83.2% 53.3%; /* Azul vibrante para destaques */
+    --primary-foreground: 0 0% 100%; /* Texto branco sobre o azul */
+    --secondary: 228 15% 20%; /* Tom mais escuro para elementos secundários */
+    --secondary-foreground: 210 40% 85%;
+    --muted: 228 15% 25%;
+    --muted-foreground: 215.4 16.3% 65%;
+    --accent: 221.2 83.2% 53.3%; /* Mantendo azul para acentos */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: 216 34% 17%;
+    --border: 228 15% 30%; /* Bordas mais escuras para evitar excesso de contraste */
+    --input: 228 15% 25%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
   }
 }
 
