@@ -1,4 +1,6 @@
+import Image from "next/image"
 import Link from "next/link"
+import { useTheme } from "next-themes"
 import { LayoutDashboard, Calendar, Car, Users, FileText, BarChart2, LogOut } from "lucide-react"
 
 const menuItems = [
@@ -11,9 +13,20 @@ const menuItems = [
 ]
 
 export function Sidebar() {
+  const { theme } = useTheme()
+
   return (
-    <aside className="w-64 h-screen bg-background border-r border-border">
-      <div className="h-full flex flex-col">
+    <aside className="w-64 h-screen bg-background border-r border-border relative">
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={theme === "dark" ? "/images/sidebar-bg-dark.jpg" : "/images/sidebar-bg-light.jpg"}
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          className="opacity-10"
+        />
+      </div>
+      <div className="relative z-10 h-full flex flex-col">
         <div className="p-4">
           <h1 className="text-2xl font-bold text-primary">UrbanGo!</h1>
         </div>
