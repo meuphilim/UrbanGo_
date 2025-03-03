@@ -3,68 +3,86 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Car } from "lucide-react"
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const router = useRouter()
+  const [email, setEmail] = useState("admin@admin")
+  const [password, setPassword] = useState("admin123")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Lógica de autenticação aqui
+    setLoading(true)
+    setError("")
+
+    // Simulate login process
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    // Simple validation for the predefined credentials
+    if (email === "admin@admin" && password === "admin123") {
+      // In a real app, you would set authentication tokens/cookies here
+      router.push("/dashboard")
+    } else {
+      setError("Credenciais inválidas. Tente novamente.")
+    }
+
+    setLoading(false)
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <div className="hidden lg:flex w-1/2 bg-primary items-center justify-center">
-        <svg className="w-2/3 h-2/3 text-background" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          {/* Efeito SVG que remete à identidade do projeto */}
-          <path d="M50 15 L85 85 L15 85 Z" fill="none" stroke="currentColor" strokeWidth="2" />
-          <circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" strokeWidth="2" />
-          <path d="M30 70 Q50 40 70 70" fill="none" stroke="currentColor" strokeWidth="2" />
-        </svg>
-      </div>
-      <div className="flex flex-col justify-center items-center w-full lg:w-1/2 p-8">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">Bem-vindo ao UrbanGo!</h2>
-            <p className="mt-2 text-sm text-gray-600">Faça login para acessar o sistema</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1 flex flex-col items-center">
+          <div className="bg-primary/10 p-3 rounded-full mb-2">
+            <Car className="h-8 w-8 text-primary" />
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="email">E-mail</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="password">Senha</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
+          <CardTitle className="text-2xl font-bold text-center">UrbanGo!</CardTitle>
+          <CardDescription className="text-center">Entre com suas credenciais para acessar o sistema</CardDescription>
+        </CardHeader>
+        <form onSubmit={handleLogin}>
+          <CardContent className="space-y-4">
+            {error && <div className="p-3 bg-destructive/10 text-destructive text-sm rounded-md">{error}</div>}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
-            <Button type="submit" className="w-full">
-              Entrar
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Senha</Label>
+                <Button variant="link" className="p-0 h-auto text-xs" type="button">
+                  Esqueceu a senha?
+                </Button>
+              </div>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full" type="submit" disabled={loading}>
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
-          </form>
-        </div>
-      </div>
+          </CardFooter>
+        </form>
+      </Card>
     </div>
   )
 }

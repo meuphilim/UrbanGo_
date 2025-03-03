@@ -57,7 +57,7 @@ export function ExpenseReport() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={startDate} onSelect={(date) => setStartDate(date)} initialFocus />
+            <Calendar mode="single" selected={startDate} onSelect={setStartDate} initialFocus />
           </PopoverContent>
         </Popover>
         <Popover>
@@ -71,7 +71,7 @@ export function ExpenseReport() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={endDate} onSelect={(date) => setEndDate(date)} initialFocus />
+            <Calendar mode="single" selected={endDate} onSelect={setEndDate} initialFocus />
           </PopoverContent>
         </Popover>
         <Select value={category} onValueChange={setCategory}>
@@ -85,10 +85,54 @@ export function ExpenseReport() {
             <SelectItem value="Suprimentos">Suprimentos</SelectItem>
           </SelectContent>
         </Select>
-        <ReactToPrint trigger={() => <Button>Imprimir / Exportar PDF</Button>} content={() => componentRef.current} />
+        <ReactToPrint
+          trigger={() => <Button>Imprimir / Exportar PDF</Button>}
+          content={() => componentRef.current}
+        />
       </div>
 
-      {/* Resto do código permanece o mesmo */}
+      <div ref={componentRef} className="bg-background p-4 rounded-lg shadow">
+        <h2 className="text-2xl font-bold mb-4">Relatório de Gastos</h2>
+        <table className="w-full mb-4">
+          <thead>
+            <tr className="border-b">
+              <th className="text-left p-2">Data</th>
+              <th className="text-left p-2">Descrição</th>
+              <th className="text-left p-2">Categoria</th>
+              <th className="text-right p-2">Valor (R$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredExpenses.map((expense) => (
+              <tr key={expense.id} className="border-b">
+                <td className="p-2">{new Date(expense.date).toLocaleDateString()}</td>
+                <td className="p-2">{expense.description}</td>
+                <td className="p-2">{expense.category}</td>
+                <td className="text-right p-2">{expense.value.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr className="font-bold">
+              <td colSpan={3} className="text-right p-2">
+                Total:
+              </td>
+              <td className="text-right p-2">R$ {totalExpense.toFixed(2)}</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <h3 className="text-xl font-bold mb-2">Resumo por Categoria</h3>
+        <ul>
+          {Object.entries(categoryTotals).map(([category, total]) => (
+            <li key={category} className="flex justify-between">
+              <span>{category}:</span>
+              <span>R$ {total.toFixed(2)}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-2 font-bold">Total Geral: R$ {totalExpense.toFixed(2)}</div>
+      </div>
     </div>
   )
 }
