@@ -1,77 +1,45 @@
-"use client"
-
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { BarChart2, Calendar, Car, Users, FileText, LogOut } from "lucide-react"
+import { LayoutDashboard, Calendar, Car, Users, FileText, BarChart2, LogOut } from "lucide-react"
 
-const routes = [
-  {
-    label: "Dashboard",
-    icon: BarChart2,
-    href: "/dashboard",
-    color: "text-sky-500",
-  },
-  {
-    label: "Agendamentos",
-    icon: Calendar,
-    href: "/dashboard/schedules",
-    color: "text-pink-700",
-  },
-  {
-    label: "Veículos",
-    icon: Car,
-    href: "/dashboard/vehicles",
-    color: "text-violet-500",
-  },
-  {
-    label: "Motoristas",
-    icon: Users,
-    href: "/dashboard/drivers",
-    color: "text-orange-500",
-  },
-  {
-    label: "Gastos",
-    icon: FileText,
-    href: "/dashboard/expenses",
-    color: "text-emerald-500",
-  },
+const menuItems = [
+  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  { icon: Calendar, label: "Agendamentos", href: "/dashboard/schedules" },
+  { icon: Car, label: "Veículos", href: "/dashboard/vehicles" },
+  { icon: Users, label: "Motoristas", href: "/dashboard/drivers" },
+  { icon: FileText, label: "Gastos", href: "/dashboard/expenses" },
+  { icon: BarChart2, label: "Relatórios", href: "/dashboard/reports" },
 ]
 
 export function Sidebar() {
-  const pathname = usePathname()
-
   return (
-    <div className="hidden md:flex h-full flex-col bg-white border-r shadow-sm">
-      <div className="p-6 flex items-center gap-2">
-        <Car className="h-6 w-6 text-primary" />
-        <span className="text-xl font-bold">UrbanGo!</span>
-      </div>
-      <div className="flex flex-col flex-1 py-4 px-3 space-y-1">
-        {routes.map((route) => (
-          <Link
-            key={route.href}
-            href={route.href}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-secondary",
-              pathname === route.href ? "bg-secondary text-primary" : "text-muted-foreground",
-            )}
-          >
-            <route.icon className={cn("h-5 w-5", route.color)} />
-            {route.label}
-          </Link>
-        ))}
-      </div>
-      <div className="p-3 mt-auto border-t">
-        <Link href="/logout">
-          <Button variant="ghost" className="w-full justify-start text-muted-foreground">
-            <LogOut className="mr-2 h-4 w-4" />
+    <aside className="w-64 h-screen bg-background border-r border-border">
+      <div className="h-full flex flex-col">
+        <div className="p-4">
+          <h1 className="text-2xl font-bold text-primary">UrbanGo!</h1>
+        </div>
+        <nav className="flex-1 overflow-y-auto">
+          <ul className="space-y-2 p-4">
+            {menuItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="flex items-center p-2 rounded-lg hover:bg-accent text-foreground hover:text-accent-foreground transition-colors"
+                >
+                  <item.icon className="w-5 h-5 mr-3" />
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="p-4">
+          <button className="flex items-center w-full p-2 rounded-lg hover:bg-accent text-foreground hover:text-accent-foreground transition-colors">
+            <LogOut className="w-5 h-5 mr-3" />
             Sair
-          </Button>
-        </Link>
+          </button>
+        </div>
       </div>
-    </div>
+    </aside>
   )
 }
 

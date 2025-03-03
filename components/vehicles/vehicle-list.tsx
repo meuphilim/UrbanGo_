@@ -39,14 +39,27 @@ export default function VehicleList() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Live":
-        return "bg-green-500"
-      case "In Maintenance":
-        return "bg-yellow-500"
-      case "Occupied":
-        return "bg-blue-500"
+      case "Disponível":
+        return "bg-green-500 dark:bg-green-600"
+      case "Em Manutenção":
+        return "bg-yellow-500 dark:bg-yellow-600"
+      case "Em Uso":
+        return "bg-blue-500 dark:bg-blue-600"
       default:
-        return "bg-gray-500"
+        return "bg-gray-500 dark:bg-gray-600"
+    }
+  }
+
+  const translateStatus = (status: string) => {
+    switch (status) {
+      case "Live":
+        return "Disponível"
+      case "In Maintenance":
+        return "Em Manutenção"
+      case "Occupied":
+        return "Em Uso"
+      default:
+        return status
     }
   }
 
@@ -54,40 +67,42 @@ export default function VehicleList() {
     <div className="space-y-4">
       <VehicleListFilters onFilterChange={handleFilterChange} />
       <Table>
-        <TableHeader>
+        <TableHeader className="table-header">
           <TableRow>
-            <TableHead>Placa</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Marca</TableHead>
-            <TableHead>Modelo</TableHead>
-            <TableHead>Ano</TableHead>
-            <TableHead>Ações</TableHead>
+            <TableHead className="text-foreground">Placa</TableHead>
+            <TableHead className="text-foreground">Status</TableHead>
+            <TableHead className="text-foreground">Marca</TableHead>
+            <TableHead className="text-foreground">Modelo</TableHead>
+            <TableHead className="text-foreground">Ano</TableHead>
+            <TableHead className="text-foreground">Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {filteredVehicles.map((vehicle) => (
-            <TableRow key={vehicle.id}>
-              <TableCell>{vehicle.licensePlate}</TableCell>
+            <TableRow key={vehicle.id} className="table-row">
+              <TableCell className="text-foreground">{vehicle.licensePlate}</TableCell>
               <TableCell>
-                <Badge className={getStatusColor(vehicle.status)}>{vehicle.status}</Badge>
+                <Badge className={`status-badge ${getStatusColor(translateStatus(vehicle.status))}`}>
+                  {translateStatus(vehicle.status)}
+                </Badge>
               </TableCell>
-              <TableCell>{vehicle.make}</TableCell>
-              <TableCell>{vehicle.model}</TableCell>
-              <TableCell>{vehicle.year}</TableCell>
+              <TableCell className="text-foreground">{vehicle.make}</TableCell>
+              <TableCell className="text-foreground">{vehicle.model}</TableCell>
+              <TableCell className="text-foreground">{vehicle.year}</TableCell>
               <TableCell>
                 <div className="flex space-x-2">
                   <VehicleDetailsModal vehicle={vehicle}>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="dark:border-border dark:text-foreground">
                       <FileText className="h-4 w-4" />
                     </Button>
                   </VehicleDetailsModal>
                   <EditVehicleModal vehicle={vehicle}>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="dark:border-border dark:text-foreground">
                       <Edit className="h-4 w-4" />
                     </Button>
                   </EditVehicleModal>
                   <DeleteVehicleDialog onDelete={() => deleteVehicle(vehicle.id)}>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="dark:border-border dark:text-foreground">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </DeleteVehicleDialog>

@@ -14,9 +14,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useUser } from "@/contexts/UserContext"
 import { useToast } from "@/components/ui/use-toast"
 import { useTheme } from "next-themes"
-import { User } from "lucide-react"
 
-export function UserProfileModal() {
+export function UserProfileModal({ children }: { children: React.ReactNode }) {
   const { user, updateProfile, changePassword, updatePreferences } = useUser()
   const { toast } = useToast()
   const { theme, setTheme } = useTheme()
@@ -66,24 +65,12 @@ export function UserProfileModal() {
     }
   }
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      // Only allow closing if we're not in the middle of an operation
-      setIsOpen(false)
-    } else {
-      setIsOpen(true)
-    }
-  }
-
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" className="w-full justify-start">
-          <User className="mr-2 h-4 w-4" />
-          Meu Perfil
-        </Button>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild onClick={() => setIsOpen(true)}>
+        {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>Perfil do Usuário</DialogTitle>
         </DialogHeader>
@@ -192,6 +179,9 @@ export function UserProfileModal() {
             </div>
           </TabsContent>
         </Tabs>
+        <Button onClick={() => setIsOpen(false)} className="mt-4">
+          Fechar
+        </Button>
       </DialogContent>
     </Dialog>
   )

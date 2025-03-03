@@ -12,9 +12,9 @@ import DriverListFilters from "./driver-list-filters"
 
 // Mock data for drivers
 const mockDrivers = [
-  { id: 1, name: "João Silva", licenseCategory: "D", isEAR: true, status: "Ativo" },
-  { id: 2, name: "Maria Oliveira", licenseCategory: "B", isEAR: false, status: "Inativo" },
-  { id: 3, name: "Carlos Santos", licenseCategory: "C", isEAR: true, status: "Ativo" },
+  { id: 1, name: "João Silva", licenseCategory: "D", isEAR: true, status: "Ativo", licenseExpiry: "2025-12-31" },
+  { id: 2, name: "Maria Oliveira", licenseCategory: "B", isEAR: false, status: "Inativo", licenseExpiry: "2024-06-30" },
+  { id: 3, name: "Carlos Santos", licenseCategory: "C", isEAR: true, status: "Ativo", licenseExpiry: "2026-03-15" },
 ]
 
 export default function DriverList() {
@@ -48,6 +48,10 @@ export default function DriverList() {
     }
   }
 
+  const isLicenseExpired = (expiryDate: string) => {
+    return new Date(expiryDate) < new Date()
+  }
+
   return (
     <div className="space-y-4">
       <DriverListFilters onFilterChange={handleFilterChange} />
@@ -57,6 +61,7 @@ export default function DriverList() {
             <TableHead>Nome</TableHead>
             <TableHead>Categoria CNH</TableHead>
             <TableHead>EAR</TableHead>
+            <TableHead>Validade CNH</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Ações</TableHead>
           </TableRow>
@@ -67,6 +72,11 @@ export default function DriverList() {
               <TableCell>{driver.name}</TableCell>
               <TableCell>{driver.licenseCategory}</TableCell>
               <TableCell>{driver.isEAR ? "Sim" : "Não"}</TableCell>
+              <TableCell>
+                <span className={isLicenseExpired(driver.licenseExpiry) ? "text-red-500" : ""}>
+                  {new Date(driver.licenseExpiry).toLocaleDateString()}
+                </span>
+              </TableCell>
               <TableCell>
                 <Badge className={getStatusColor(driver.status)}>{driver.status}</Badge>
               </TableCell>

@@ -13,10 +13,15 @@ interface Driver {
   isEAR: boolean
   status: string
   photo?: string
+  licenseExpiry: string
 }
 
 export default function DriverDetailsModal({ children, driver }: { children: React.ReactNode; driver: Driver }) {
   const [isOpen, setIsOpen] = useState(false)
+
+  const isLicenseExpired = (expiryDate: string) => {
+    return new Date(expiryDate) < new Date()
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -53,6 +58,12 @@ export default function DriverDetailsModal({ children, driver }: { children: Rea
             <div>
               <p className="text-sm font-medium">Status</p>
               <p>{driver.status}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium">Validade CNH</p>
+              <p className={isLicenseExpired(driver.licenseExpiry) ? "text-red-500" : ""}>
+                {new Date(driver.licenseExpiry).toLocaleDateString()}
+              </p>
             </div>
           </div>
         </div>
